@@ -4,61 +4,46 @@ public class PalindromeCheckerApp {
      * MAIN CLASS – UseCase1PalindromeCheckerApp
      * ==========================================================
      *
-     * Use Case 7: Deque-Based Optimized Palindrome Checker
+     * Use Case 8: Linked List Based Palindrome Checker
      *
      * Description:
-     * This class validates a palindrome using a Deque
-     * (Double Ended Queue).
+     * This class checks whether a string is a palindrome
+     * using a Singly Linked List.
      *
-     * Characters are inserted into the deque and then
-     * compared by removing elements from both ends:
+     * Flow:
+     * 1. Convert string to linked list
+     * 2. Find middle using fast & slow pointers
+     * 3. Reverse second half (in-place)
+     * 4. Compare both halves
      *
-     * - removeFirst()
-     * - removeLast()
-     *
-     * This avoids reversing the string and provides an
-     * efficient front-to-back comparison approach.
-     *
-     * This use case demonstrates optimal bidirectional
-     * traversal using Deque.
+     * Key Concepts:
+     * - Singly Linked List
+     * - Node Traversal
+     * - Fast and Slow Pointer Technique
+     * - In-Place Reversal
      *
      * @author Naman Agarwal
-     * @version 7.0
+     * @version 8.0
      */
 
 
 
         /**
-         * Application entry point for UC7.
+         * Application entry point for UC8.
          *
          * @param args Command-line arguments
          */
         public static void main(String[] args) {
 
-            String input = "refer";
+            String input = "madam";
 
-            Deque<Character> deque = new ArrayDeque<>();
+            System.out.println("Input String: " + input);
 
-            for (char c : input.toCharArray()) {
-                deque.addLast(c);
-            }
+            Node head = createLinkedList(input);
 
-            boolean isPalindrome = true;
-
-            while (deque.size() > 1) {
-
-                char front = deque.removeFirst();
-                char rear = deque.removeLast();
-
-                if (front != rear) {
-                    isPalindrome = false;
-                    break;
-                }
-            }
-
-            if (isPalindrome) {
-                System.out.println("The string \"" + input + "\" is a palindrome.");
+            if (isPalindrome(head)) {
+                System.out.println("Result: The string is a Palindrome.");
             } else {
-                System.out.println("The string \"" + input + "\" is NOT a palindrome.");
+                System.out.println("Result: The string is NOT a Palindrome.");
             }
         }
