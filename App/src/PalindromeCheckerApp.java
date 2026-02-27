@@ -1,30 +1,28 @@
 public class PalindromeCheckerApp {
     /**
      * ==========================================================
-     * MAIN CLASS – UseCase12PalindromeCheckerApp
+     * MAIN CLASS – UseCase13PalindromeCheckerApp
      * ==========================================================
      *
-     * Use Case 12: Strategy Pattern for Palindrome Algorithms
+     * Use Case 13: Performance Comparison
      *
      * Description:
-     * This class demonstrates how different palindrome
-     * validation algorithms can be selected dynamically
-     * at runtime using the Strategy Design Pattern.
+     * This class measures and compares the execution
+     * performance of different palindrome validation algorithms.
      *
      * Concepts Used:
-     * - Interface
-     * - Polymorphism
      * - Strategy Pattern
-     * - Stack and Deque Data Structures
+     * - System.nanoTime()
+     * - Algorithm Benchmarking
      *
      * @author Naman Agarwal
-     * @version 12.0
+     * @version 13.0
      */
 
 
 
         /**
-         * Application entry point for UC12.
+         * Application entry point for UC13.
          *
          * @param args Command-line arguments
          */
@@ -32,33 +30,30 @@ public class PalindromeCheckerApp {
 
             Scanner scanner = new Scanner(System.in);
 
-            System.out.println("Choose Palindrome Strategy:");
-            System.out.println("1. Stack Strategy");
-            System.out.println("2. Deque Strategy");
-            System.out.print("Enter choice (1 or 2): ");
-
-            int choice = scanner.nextInt();
-            scanner.nextLine();
-
-            System.out.print("Enter a string: ");
+            System.out.print("Input : ");
             String input = scanner.nextLine();
 
             input = input.replaceAll("\\s+", "").toLowerCase();
 
-            PalindromeStrategy strategy;
+            List<PalindromeStrategy> strategies = Arrays.asList(
+                    new TwoPointerStrategy(),
+                    new StackStrategy(),
+                    new DequeStrategy()
+            );
 
-            if (choice == 1) {
-                strategy = new StackStrategy();
-            } else {
-                strategy = new DequeStrategy();
-            }
+            for (PalindromeStrategy strategy : strategies) {
 
-            boolean result = strategy.checkPalindrome(input);
+                long startTime = System.nanoTime();
 
-            if (result) {
-                System.out.println("Result: The string is a palindrome.");
-            } else {
-                System.out.println("Result: The string is NOT a palindrome.");
+                boolean result = strategy.checkPalindrome(input);
+
+                long endTime = System.nanoTime();
+                long executionTime = endTime - startTime;
+
+                System.out.println("-----------------------------------");
+                System.out.println("Algorithm : " + strategy.getClass().getSimpleName());
+                System.out.println("Is Palindrome : " + result);
+                System.out.println("Execution Time : " + executionTime + " ns");
             }
 
             scanner.close();
@@ -66,22 +61,37 @@ public class PalindromeCheckerApp {
 }
 
 /**
- * ============================================================
- * INTERFACE - PalindromeStrategy
- * ============================================================
- *
- * Defines a contract for all palindrome algorithms.
+ * Strategy Interface
  */
 interface PalindromeStrategy {
     boolean checkPalindrome(String input);
 }
 
 /**
- * ============================================================
- * CLASS - StackStrategy
- * ============================================================
- *
- * Uses Stack data structure.
+ * Two Pointer Strategy (Fastest baseline approach)
+ */
+class TwoPointerStrategy implements PalindromeStrategy {
+
+    @Override
+    public boolean checkPalindrome(String input) {
+
+        int start = 0;
+        int end = input.length() - 1;
+
+        while (start < end) {
+            if (input.charAt(start) != input.charAt(end)) {
+                return false;
+            }
+            start++;
+            end--;
+        }
+
+        return true;
+    }
+}
+
+/**
+ * Stack-Based Strategy
  */
 class StackStrategy implements PalindromeStrategy {
 
@@ -105,11 +115,7 @@ class StackStrategy implements PalindromeStrategy {
 }
 
 /**
- * ============================================================
- * CLASS - DequeStrategy
- * ============================================================
- *
- * Uses Deque data structure.
+ * Deque-Based Strategy
  */
 class DequeStrategy implements PalindromeStrategy {
 
@@ -121,6 +127,7 @@ class DequeStrategy implements PalindromeStrategy {
         for (char ch : input.toCharArray()) {
             deque.addLast(ch);
         }
+
         while (deque.size() > 1) {
             if (!deque.removeFirst().equals(deque.removeLast())) {
                 return false;
