@@ -4,32 +4,29 @@ public class PalindromeCheckerApp {
      * MAIN CLASS – UseCase1PalindromeCheckerApp
      * ==========================================================
      *
-     * Use Case 8: Linked List Based Palindrome Checker
+     * Use Case 9: Recursive Palindrome Checker
      *
      * Description:
-     * This class checks whether a string is a palindrome
-     * using a Singly Linked List.
+     * This class validates a palindrome using recursion.
      *
-     * Flow:
-     * 1. Convert string to linked list
-     * 2. Find middle using fast & slow pointers
-     * 3. Reverse second half (in-place)
-     * 4. Compare both halves
+     * Characters are compared from the outer positions
+     * moving inward using recursive calls.
      *
-     * Key Concepts:
-     * - Singly Linked List
-     * - Node Traversal
-     * - Fast and Slow Pointer Technique
-     * - In-Place Reversal
+     * The recursion stops when:
+     * - All characters are matched, OR
+     * - A mismatch is found.
+     *
+     * This use case demonstrates divide-and-conquer
+     * logic using method recursion.
      *
      * @author Naman Agarwal
-     * @version 8.0
+     * @version 9.0
      */
 
 
 
         /**
-         * Application entry point for UC8.
+         * Application entry point for UC9.
          *
          * @param args Command-line arguments
          */
@@ -37,13 +34,21 @@ public class PalindromeCheckerApp {
 
             String input = "madam";
 
-            System.out.println("Input String: " + input);
+            System.out.println("Input : " + input);
 
-            Node head = createLinkedList(input);
+            boolean result = check(input, 0, input.length() - 1);
 
-            if (isPalindrome(head)) {
-                System.out.println("Result: The string is a Palindrome.");
-            } else {
-                System.out.println("Result: The string is NOT a Palindrome.");
-            }
+            System.out.println("Is Palindrome? : " + result);
         }
+
+    private static boolean check(String s, int start, int end) {
+
+        if (start >= end) {
+            return true;
+        }
+
+        if (s.charAt(start) != s.charAt(end)) {
+            return false;
+        }
+        return check(s, start + 1, end - 1);
+    }
