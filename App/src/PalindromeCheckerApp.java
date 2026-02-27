@@ -4,50 +4,42 @@ public class PalindromeCheckerApp {
      * MAIN CLASS – UseCase1PalindromeCheckerApp
      * ==========================================================
      *
-     * Use Case 10: Normalized Palindrome Validation
+     * Use Case 11: Object-Oriented Palindrome Service
      *
      * Description:
-     * This class validates a palindrome after preprocessing
-     * the input string.
+     * This class demonstrates palindrome validation using
+     * object-oriented design principles.
      *
-     * Normalization includes:
-     * - Removing spaces and symbols
-     * - Converting to lowercase
-     *
-     * Example:
-     * "A man a plan a canal Panama"
+     * The palindrome logic is encapsulated inside a
+     * PalindromeService class.
      *
      * @author Naman Agarwal
-     * @version 10.0
+     * @version 11.0
      */
 
 
 
         /**
-         * Application entry point for UC10.
+         * Application entry point for UC11.
          *
          * @param args Command-line arguments
          */
         public static void main(String[] args) {
 
-            String input = "A man a plan a canal Panama";
+            Scanner scanner = new Scanner(System.in);
 
-            System.out.println("Original Input : " + input);
+            System.out.print("Enter a string to check palindrome: ");
+            String input = scanner.nextLine();
 
-            String normalized = input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+            PalindromeService service = new PalindromeService();
+            boolean result = service.checkPalindrome(input);
 
-            System.out.println("Normalized Input : " + normalized);
-
-            boolean isPalindrome = true;
-
-            for (int i = 0; i < normalized.length() / 2; i++) {
-                if (normalized.charAt(i) !=
-                        normalized.charAt(normalized.length() - 1 - i)) {
-
-                    isPalindrome = false;
-                    break;
-                }
+            if (result) {
+                System.out.println("Result: The string is a palindrome.");
+            } else {
+                System.out.println("Result: The string is NOT a palindrome.");
             }
 
-            System.out.println("Is Palindrome? : " + isPalindrome);
+            scanner.close();
         }
+}
