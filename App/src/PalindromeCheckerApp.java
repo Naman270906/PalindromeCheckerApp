@@ -39,6 +39,8 @@ public class PalindromeCheckerApp {
             boolean result = check(input, 0, input.length() - 1);
 
             System.out.println("Is Palindrome? : " + result);
+
+
         }
 
     private static boolean check(String s, int start, int end) {
